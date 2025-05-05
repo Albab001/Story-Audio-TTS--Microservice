@@ -1,0 +1,25 @@
+# Virtual environment
+venv/
+.env/
+
+# Model files and caches
+*.pth
+*.bin
+*.h5
+model_checkpoints/
+offload/
+__pycache__/
+*.pyc
+
+# Large data files
+*.wav
+*.mp3
+outputs/
+
+# IDE files
+.vscode/
+.idea/
+
+# System files
+.DS_Store
+Thumbs.db

@@ -1,0 +1,143 @@
+Collecting kokoro
+  Using cached kokoro-0.9.4-py3-none-any.whl (32 kB)
+Collecting soundfile
+  Using cached soundfile-0.13.1-py2.py3-none-win_amd64.whl (1.0 MB)
+Requirement already satisfied: huggingface-hub in d:\semester 8\nlp\project\venv\lib\site-packages (from kokoro) (0.30.2)
+Collecting loguru
+  Using cached loguru-0.7.3-py3-none-any.whl (61 kB)
+Collecting misaki[en]>=0.9.4
+  Using cached misaki-0.9.4-py3-none-any.whl (3.6 MB)
+Requirement already satisfied: torch in d:\semester 8\nlp\project\venv\lib\site-packages (from kokoro) (2.1.0)
+Requirement already satisfied: transformers in d:\semester 8\nlp\project\venv\lib\site-packages (from kokoro) (4.51.0)
+Requirement already satisfied: numpy in d:\semester 8\nlp\project\venv\lib\site-packages (from kokoro) (2.2.5)
+Collecting cffi>=1.0
+  Using cached cffi-1.17.1-cp310-cp310-win_amd64.whl (181 kB)
+Requirement already satisfied: pycparser in d:\semester 8\nlp\project\venv\lib\site-packages (from cffi>=1.0->soundfile) (2.22)
+Requirement already satisfied: regex in d:\semester 8\nlp\project\venv\lib\site-packages (from misaki[en]>=0.9.4->kokoro) (2024.11.6)
+Requirement already satisfied: addict in d:\semester 8\nlp\project\venv\lib\site-packages (from misaki[en]>=0.9.4->kokoro) (2.4.0)
+Collecting spacy-curated-transformers
+  Using cached spacy_curated_transformers-2.1.2-py2.py3-none-any.whl (240 kB)
+Collecting phonemizer-fork
+  Using cached phonemizer_fork-3.3.2-py3-none-any.whl (82 kB)
+Collecting spacy
+  Using cached spacy-3.8.5-cp310-cp310-win_amd64.whl (12.2 MB)
+Collecting num2words
+  Using cached num2words-0.5.14-py3-none-any.whl (163 kB)
+Collecting espeakng-loader
+  Using cached espeakng_loader-0.2.4-py3-none-win_amd64.whl (9.4 MB)
+Requirement already satisfied: requests in d:\semester 8\nlp\project\venv\lib\site-packages (from huggingface-hub->kokoro) (2.32.3)
+Requirement already satisfied: typing-extensions>=3.7.4.3 in d:\semester 8\nlp\project\venv\lib\site-packages (from huggingface-hub->kokoro) (4.13.2)
+Requirement already satisfied: fsspec>=2023.5.0 in d:\semester 8\nlp\project\venv\lib\site-packages (from huggingface-hub->kokoro) (2025.3.2)
+Requirement already satisfied: tqdm>=4.42.1 in d:\semester 8\nlp\project\venv\lib\site-packages (from huggingface-hub->kokoro) (4.67.1)
+Requirement already satisfied: pyyaml>=5.1 in d:\semester 8\nlp\project\venv\lib\site-packages (from huggingface-hub->kokoro) (6.0.2)
+Requirement already satisfied: packaging>=20.9 in d:\semester 8\nlp\project\venv\lib\site-packages (from huggingface-hub->kokoro) (25.0)
+Requirement already satisfied: filelock in d:\semester 8\nlp\project\venv\lib\site-packages (from huggingface-hub->kokoro) (3.18.0)
+Requirement already satisfied: win32-setctime>=1.0.0 in d:\semester 8\nlp\project\venv\lib\site-packages (from loguru->kokoro) (1.2.0)
+Requirement already satisfied: colorama>=0.3.4 in d:\semester 8\nlp\project\venv\lib\site-packages (from loguru->kokoro) (0.4.6)
+Requirement already satisfied: networkx in d:\semester 8\nlp\project\venv\lib\site-packages (from torch->kokoro) (3.4.2)
+Requirement already satisfied: jinja2 in d:\semester 8\nlp\project\venv\lib\site-packages (from torch->kokoro) (3.1.6)
+Requirement already satisfied: sympy in d:\semester 8\nlp\project\venv\lib\site-packages (from torch->kokoro) (1.14.0)
+Requirement already satisfied: safetensors>=0.4.3 in d:\semester 8\nlp\project\venv\lib\site-packages (from transformers->kokoro) (0.5.3)
+Requirement already satisfied: tokenizers<0.22,>=0.21 in d:\semester 8\nlp\project\venv\lib\site-packages (from transformers->kokoro) (0.21.1)
+Requirement already satisfied: MarkupSafe>=2.0 in d:\semester 8\nlp\project\venv\lib\site-packages (from jinja2->torch->kokoro) (3.0.2)
+Requirement already satisfied: docopt>=0.6.2 in d:\semester 8\nlp\project\venv\lib\site-packages (from num2words->misaki[en]>=0.9.4->kokoro) (0.6.2)
+Collecting joblib
+  Using cached joblib-1.5.0-py3-none-any.whl (307 kB)
+Collecting segments
+  Using cached segments-2.3.0-py2.py3-none-any.whl (15 kB)
+Collecting dlinfo
+  Using cached dlinfo-2.0.0-py3-none-any.whl (3.7 kB)
+Collecting attrs>=18.1
+  Using cached attrs-25.3.0-py3-none-any.whl (63 kB)
+Requirement already satisfied: idna<4,>=2.5 in d:\semester 8\nlp\project\venv\lib\site-packages (from requests->huggingface-hub->kokoro) (3.10)
+Requirement already satisfied: certifi>=2017.4.17 in d:\semester 8\nlp\project\venv\lib\site-packages (from requests->huggingface-hub->kokoro) (2025.4.26)
+Requirement already satisfied: charset-normalizer<4,>=2 in d:\semester 8\nlp\project\venv\lib\site-packages (from requests->huggingface-hub->kokoro) (3.4.2)
+Requirement already satisfied: urllib3<3,>=1.21.1 in d:\semester 8\nlp\project\venv\lib\site-packages (from requests->huggingface-hub->kokoro) (2.4.0)
+Requirement already satisfied: spacy-loggers<2.0.0,>=1.0.0 in d:\semester 8\nlp\project\venv\lib\site-packages (from spacy->misaki[en]>=0.9.4->kokoro) (1.0.5)
+Collecting murmurhash<1.1.0,>=0.28.0
+  Using cached murmurhash-1.0.12-cp310-cp310-win_amd64.whl (25 kB)
+Collecting typer<1.0.0,>=0.3.0
+  Using cached typer-0.15.3-py3-none-any.whl (45 kB)
+Collecting thinc<8.4.0,>=8.3.4
+  Using cached thinc-8.3.6-cp310-cp310-win_amd64.whl (1.8 MB)
+Collecting weasel<0.5.0,>=0.1.0
+  Using cached weasel-0.4.1-py3-none-any.whl (50 kB)
+Collecting catalogue<2.1.0,>=2.0.6
+  Using cached catalogue-2.0.10-py3-none-any.whl (17 kB)
+Requirement already satisfied: cymem<2.1.0,>=2.0.2 in d:\semester 8\nlp\project\venv\lib\site-packages (from spacy->misaki[en]>=0.9.4->kokoro) (2.0.11)
+Requirement already satisfied: wasabi<1.2.0,>=0.9.1 in d:\semester 8\nlp\project\venv\lib\site-packages (from spacy->misaki[en]>=0.9.4->kokoro) (1.1.3)
+Collecting preshed<3.1.0,>=3.0.2
+  Using cached preshed-3.0.9-cp310-cp310-win_amd64.whl (122 kB)
+Collecting langcodes<4.0.0,>=3.2.0
+  Using cached langcodes-3.5.0-py3-none-any.whl (182 kB)
+Requirement already satisfied: spacy-legacy<3.1.0,>=3.0.11 in d:\semester 8\nlp\project\venv\lib\site-packages (from spacy->misaki[en]>=0.9.4->kokoro) (3.0.12)
+Requirement already satisfied: setuptools in d:\semester 8\nlp\project\venv\lib\site-packages (from spacy->misaki[en]>=0.9.4->kokoro) (65.5.0)
+Requirement already satisfied: pydantic!=1.8,!=1.8.1,<3.0.0,>=1.7.4 in d:\semester 8\nlp\project\venv\lib\site-packages (from spacy->misaki[en]>=0.9.4->kokoro) (2.11.1)
+Collecting srsly<3.0.0,>=2.4.3
+  Using cached srsly-2.5.1-cp310-cp310-win_amd64.whl (632 kB)
+Collecting curated-transformers<3.0.0,>=2.0.0
+  Downloading curated_transformers-2.0.1-py2.py3-none-any.whl (363 kB)
+     ------------------------------------ 363.5/363.5 kB 595.6 kB/s eta 0:00:00
+Collecting curated-tokenizers<3.0.0,>=2.0.0
+  Downloading curated_tokenizers-2.0.0-cp310-cp310-win_amd64.whl (760 kB)
+     -------------------------------------- 760.7/760.7 kB 3.0 MB/s eta 0:00:00
+Collecting spacy-curated-transformers
+  Using cached spacy_curated_transformers-2.1.1-py2.py3-none-any.whl (240 kB)
+Collecting spacy
+  Downloading spacy-4.0.0.dev3-cp310-cp310-win_amd64.whl (12.3 MB)
+     ---------------------------------------- 12.3/12.3 MB 4.7 MB/s eta 0:00:00
+Collecting spacy-curated-transformers
+  Using cached spacy_curated_transformers-2.0.0-py2.py3-none-any.whl (240 kB)
+  Using cached spacy_curated_transformers-0.3.0-py2.py3-none-any.whl (236 kB)
+Collecting curated-tokenizers<0.1.0,>=0.0.9
+  Using cached curated_tokenizers-0.0.9-cp310-cp310-win_amd64.whl (730 kB)
+Collecting curated-transformers<0.2.0,>=0.1.0
+  Using cached curated_transformers-0.1.1-py2.py3-none-any.whl (25 kB)
+Requirement already satisfied: mpmath<1.4,>=1.1.0 in d:\semester 8\nlp\project\venv\lib\site-packages (from sympy->torch->kokoro) (1.3.0)
+Collecting language-data>=1.2
+  Using cached language_data-1.3.0-py3-none-any.whl (5.4 MB)
+Requirement already satisfied: annotated-types>=0.6.0 in d:\semester 8\nlp\project\venv\lib\site-packages (from pydantic!=1.8,!=1.8.1,<3.0.0,>=1.7.4->spacy->misaki[en]>=0.9.4->kokoro) (0.7.0)
+Requirement already satisfied: pydantic-core==2.33.0 in d:\semester 8\nlp\project\venv\lib\site-packages (from pydantic!=1.8,!=1.8.1,<3.0.0,>=1.7.4->spacy->misaki[en]>=0.9.4->kokoro) (2.33.0)
+Requirement already satisfied: typing-inspection>=0.4.0 in d:\semester 8\nlp\project\venv\lib\site-packages (from pydantic!=1.8,!=1.8.1,<3.0.0,>=1.7.4->spacy->misaki[en]>=0.9.4->kokoro) (0.4.0)
+Collecting confection<1.0.0,>=0.0.1
+  Using cached confection-0.1.5-py3-none-any.whl (35 kB)
+Collecting blis<1.4.0,>=1.3.0
+  Using cached blis-1.3.0-cp310-cp310-win_amd64.whl (6.2 MB)
+Collecting rich>=10.11.0
+  Using cached rich-14.0.0-py3-none-any.whl (243 kB)
+Requirement already satisfied: shellingham>=1.3.0 in d:\semester 8\nlp\project\venv\lib\site-packages (from typer<1.0.0,>=0.3.0->spacy->misaki[en]>=0.9.4->kokoro) (1.5.4)
+Requirement already satisfied: click>=8.0.0 in d:\semester 8\nlp\project\venv\lib\site-packages (from typer<1.0.0,>=0.3.0->spacy->misaki[en]>=0.9.4->kokoro) (8.1.8)
+Collecting smart-open<8.0.0,>=5.2.1
+  Using cached smart_open-7.1.0-py3-none-any.whl (61 kB)
+Collecting cloudpathlib<1.0.0,>=0.7.0
+  Using cached cloudpathlib-0.21.0-py3-none-any.whl (52 kB)
+Collecting csvw>=1.5.6
+  Using cached csvw-3.5.1-py2.py3-none-any.whl (59 kB)
+Collecting babel
+  Using cached babel-2.17.0-py3-none-any.whl (10.2 MB)
+Requirement already satisfied: language-tags in d:\semester 8\nlp\project\venv\lib\site-packages (from csvw>=1.5.6->segments->phonemizer-fork->misaki[en]>=0.9.4->kokoro) (1.2.0)
+Collecting isodate
+  Using cached isodate-0.7.2-py3-none-any.whl (22 kB)
+Collecting rdflib
+  Using cached rdflib-7.1.4-py3-none-any.whl (565 kB)
+Collecting jsonschema
+  Using cached jsonschema-4.23.0-py3-none-any.whl (88 kB)
+Requirement already satisfied: rfc3986<2 in d:\semester 8\nlp\project\venv\lib\site-packages (from csvw>=1.5.6->segments->phonemizer-fork->misaki[en]>=0.9.4->kokoro) (1.5.0)
+Requirement already satisfied: uritemplate>=3.0.0 in d:\semester 8\nlp\project\venv\lib\site-packages (from csvw>=1.5.6->segments->phonemizer-fork->misaki[en]>=0.9.4->kokoro) (4.1.1)
+Requirement already satisfied: python-dateutil in d:\semester 8\nlp\project\venv\lib\site-packages (from csvw>=1.5.6->segments->phonemizer-fork->misaki[en]>=0.9.4->kokoro) (2.9.0.post0)
+Collecting marisa-trie>=1.1.0
+  Using cached marisa_trie-1.2.1-cp310-cp310-win_amd64.whl (151 kB)
+Collecting markdown-it-py>=2.2.0
+  Using cached markdown_it_py-3.0.0-py3-none-any.whl (87 kB)
+Requirement already satisfied: pygments<3.0.0,>=2.13.0 in d:\semester 8\nlp\project\venv\lib\site-packages (from rich>=10.11.0->typer<1.0.0,>=0.3.0->spacy->misaki[en]>=0.9.4->kokoro) (2.19.1)
+Requirement already satisfied: wrapt in d:\semester 8\nlp\project\venv\lib\site-packages (from smart-open<8.0.0,>=5.2.1->weasel<0.5.0,>=0.1.0->spacy->misaki[en]>=0.9.4->kokoro) (1.17.2)
+Collecting mdurl~=0.1
+  Using cached mdurl-0.1.2-py3-none-any.whl (10.0 kB)
+Requirement already satisfied: rpds-py>=0.7.1 in d:\semester 8\nlp\project\venv\lib\site-packages (from jsonschema->csvw>=1.5.6->segments->phonemizer-fork->misaki[en]>=0.9.4->kokoro) (0.24.0)
+Collecting referencing>=0.28.4
+  Using cached referencing-0.36.2-py3-none-any.whl (26 kB)
+Collecting jsonschema-specifications>=2023.03.6
+  Using cached jsonschema_specifications-2025.4.1-py3-none-any.whl (18 kB)
+Requirement already satisfied: six>=1.5 in d:\semester 8\nlp\project\venv\lib\site-packages (from python-dateutil->csvw>=1.5.6->segments->phonemizer-fork->misaki[en]>=0.9.4->kokoro) (1.17.0)
+Requirement already satisfied: pyparsing<4,>=2.1.0 in d:\semester 8\nlp\project\venv\lib\site-packages (from rdflib->csvw>=1.5.6->segments->phonemizer-fork->misaki[en]>=0.9.4->kokoro) (3.2.3)
+Installing collected packages: smart-open, num2words, murmurhash, misaki, mdurl, marisa-trie, loguru, joblib, isodate, espeakng-loader, dlinfo, curated-tokenizers, cloudpathlib, cffi, catalogue, blis, babel, attrs, srsly, soundfile, referencing, rdflib, preshed, markdown-it-py, language-data, rich, langcodes, jsonschema-specifications, curated-transformers, confection, typer, thinc, spacy-curated-transformers, jsonschema, weasel, csvw, spacy, segments, phonemizer-fork, kokoro

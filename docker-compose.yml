@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  story2audio:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: story2audio-service
+    ports:
+      - "${GRPC_PORT:-50051}:50051"
+    environment:
+      - GRPC_PORT=${GRPC_PORT:-50051}
+      - MAX_WORKERS=${MAX_WORKERS:-10}
+      - CHUNK_SIZE=${CHUNK_SIZE:-150}
+      - MAX_WORDS=${MAX_WORDS:-1000}
+      - OUTPUT_DIR=${OUTPUT_DIR:-outputs/temp}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    volumes:
+      - ./outputs:/app/outputs
+      - ./models:/app/models
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import grpc; import story2audio_pb2_grpc; print('OK')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s

@@ -1,6 +1,13 @@
+"""
+gRPC server implementation for Story2Audio Microservice.
+
+Handles audio generation requests with comprehensive error handling,
+validation, and metrics collection.
+"""
 import grpc
 import os
 import logging
+import uuid
 from concurrent import futures
 import asyncio
 import story2audio_pb2
@@ -9,13 +16,15 @@ from src.preprocess import chunk_story
 from src.enhancer_local import StoryEnhancer
 from src.kokoro_tts import text_to_coqui_audio
 from src.utils import combine_audio
+from src.validators import StoryValidator
+from src.metrics import metrics
 import base64
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from config import Config
 
 # Set up logging
-logging.basicConfig(level=getattr(logging, Config.LOG_LEVEL))
+Config.setup_logging()
 logger = logging.getLogger(__name__)
 
 class StoryServiceServicer(story2audio_pb2_grpc.StoryServiceServicer):
@@ -30,23 +39,29 @@ class StoryServiceServicer(story2audio_pb2_grpc.StoryServiceServicer):
         return self.enhancer
     
     async def GenerateAudio(self, request, context):
+        request_id = str(uuid.uuid4())[:8]
+        story_text = request.story_text
+        
         try:
-            story_text = request.story_text
-            logger.info(f"Received request with {len(story_text.split())} words")
+            # Sanitize and validate input
+            story_text = StoryValidator.sanitize_text(story_text)
+            is_valid, error_message = StoryValidator.validate_story_text(story_text)
             
-            # Input validation
-            if not story_text.strip():
-                logger.warning("Empty story text received")
+            if not is_valid:
+                logger.warning(f"[{request_id}] Validation failed: {error_message}")
                 context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
-                context.set_details("Story text cannot be empty")
-                return story2audio_pb2.AudioResponse(status="error", audio_base64="", message="Empty input")
+                context.set_details(error_message or "Invalid input")
+                return story2audio_pb2.AudioResponse(
+                    status="error", 
+                    audio_base64="", 
+                    message=error_message or "Invalid input"
+                )
             
             word_count = len(story_text.split())
-            if word_count > Config.MAX_WORDS:
-                logger.warning(f"Story text too long: {word_count} words (max: {Config.MAX_WORDS})")
-                context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
-                context.set_details(f"Story text too long (max {Config.MAX_WORDS} words)")
-                return story2audio_pb2.AudioResponse(status="error", audio_base64="", message="Text too long")
+            logger.info(f"[{request_id}] Processing request: {word_count} words")
+            
+            # Start metrics tracking
+            metrics.start_request(request_id, word_count=word_count)
 
             # Preprocess
             logger.info("Preprocessing story into chunks...")

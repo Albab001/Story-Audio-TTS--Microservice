@@ -6,6 +6,7 @@
 ![PyTorch](https://img.shields.io/badge/PyTorch-2.1.0-orange.svg)
 ![gRPC](https://img.shields.io/badge/gRPC-1.71.0-green.svg)
 ![License](https://img.shields.io/badge/License-MIT-yellow.svg)
+![CI](https://img.shields.io/badge/CI-GitHub%20Actions-blue.svg)
 
 **Transform your stories into engaging audio narratives using AI-powered text enhancement and text-to-speech technology.**
 
@@ -50,7 +51,7 @@
 - **High-Quality TTS**: Generates natural, expressive speech using Kokoro-82M
 - **Scalable Architecture**: Built with gRPC for high-performance microservice communication
 - **User-Friendly Interface**: Gradio-based web frontend for easy interaction
-- **Production-Ready**: Docker containerization and comprehensive testing
+- **Production-Ready**: Docker containerization, comprehensive testing, and monitoring
 
 ---
 
@@ -60,10 +61,12 @@
 - 🎨 **Text Enhancement**: AI-powered story enhancement using Falcon-RW-1B model
 - 🔊 **Natural Speech**: High-quality TTS with emotional expression
 - 🔧 **Configurable**: Environment-based configuration management
-- 🐳 **Dockerized**: Easy deployment with Docker
+- 🐳 **Dockerized**: Easy deployment with Docker and Docker Compose
 - 🧪 **Tested**: Comprehensive unit and performance tests
-- 📊 **Monitoring**: Built-in logging and performance metrics
+- 📊 **Monitoring**: Built-in logging, metrics, and health checks
 - 🌐 **RESTful API**: gRPC-based API for seamless integration
+- 🔒 **Secure**: Input validation, error handling, and security best practices
+- ⚡ **Optimized**: Caching, retry logic, and performance optimizations
 
 ---
 
@@ -75,7 +78,7 @@ The project was developed in five distinct phases:
 2. **Phase 2**: Core pipeline development (preprocessing, enhancement, TTS, audio stitching)
 3. **Phase 3**: gRPC API development with async support and error handling
 4. **Phase 4**: Gradio frontend for user interaction with the API
-5. **Phase 5**: Documentation, test cases, and performance evaluation
+5. **Phase 5**: Documentation, test cases, performance evaluation, and production optimizations
 
 ---
 
@@ -91,21 +94,25 @@ Input Story → Preprocessing → Enhancement → TTS → Audio Stitching → Fi
 
 1. **Text Preprocessing** (`src/preprocess.py`)
    - Splits input story into manageable chunks (~150 words each)
+   - Intelligent chunking with sentence boundary preservation
    - Handles text normalization and whitespace cleanup
    - Validates input and handles edge cases
 
 2. **Text Enhancement** (`src/enhancer_local.py`)
    - Uses `tiiuae/falcon-rw-1b` model for emotional storytelling enhancement
+   - Singleton pattern for efficient model loading
    - Improves narrative tone and engagement
-   - Processes chunks in parallel for efficiency
+   - Processes chunks with optimized parameters
 
 3. **Text-to-Speech** (`src/kokoro_tts.py`)
    - Converts enhanced text to audio using `hexgrad/Kokoro-82M`
    - Generates expressive, natural-sounding speech
    - Supports multiple voice styles
+   - Optimized pipeline with singleton pattern
 
 4. **Audio Stitching** (`src/utils.py`)
    - Combines individual audio chunks into a single MP3 file
+   - Smooth fade transitions between chunks
    - Handles audio format conversion and synchronization
    - Ensures seamless transitions between chunks
 
@@ -121,6 +128,9 @@ Input Story → Preprocessing → Enhancement → TTS → Audio Stitching → Fi
 ┌─────────────────┐
 │  gRPC Server    │
 │  (api/server.py)│
+│  - Validation   │
+│  - Metrics       │
+│  - Error Handle  │
 └──────┬──────────┘
        │
        ▼
@@ -188,6 +198,15 @@ ffmpeg -version
 
 If FFmpeg is not found, please install it using the instructions in the Prerequisites section.
 
+### Step 5: Configure Environment (Optional)
+
+Copy `.env.example` to `.env` and customize settings:
+
+```bash
+cp .env.example .env
+# Edit .env with your preferred settings
+```
+
 ---
 
 ## 🎬 Quick Start
@@ -245,11 +264,12 @@ The easiest way to use Story2Audio is through the web interface:
 
 ```python
 import asyncio
-from api.grpc_client import generate_audio
+from api.grpc_client import Story2AudioClient
 
 async def main():
+    client = Story2AudioClient(host="localhost", port=50051)
     story = "Once upon a time, in a land far away..."
-    audio_base64, status, message = await generate_audio(story)
+    audio_base64, status, message = await client.generate_audio(story, timeout=300)
     
     if status == "success":
         # Decode and save audio
@@ -280,7 +300,9 @@ asyncio.run(main())
 
 ## 📡 API Documentation
 
-### gRPC Service Definition
+See [docs/API.md](docs/API.md) for comprehensive API documentation.
+
+### Quick Reference
 
 **Service**: `StoryService`
 
@@ -312,14 +334,15 @@ message AudioResponse {
 
 - `INVALID_ARGUMENT`: Empty input or text exceeds word limit
 - `INTERNAL`: Server-side processing error
+- `NOT_FOUND`: File not found error
 
 ---
 
 ## ⚙️ Configuration
 
-The application uses a centralized configuration system (`config.py`) that supports environment variables:
+The application uses a centralized configuration system (`config.py`) that supports environment variables. See `.env.example` for all available options.
 
-### Environment Variables
+### Key Environment Variables
 
 | Variable | Default | Description |
 |----------|---------|-------------|
@@ -331,18 +354,7 @@ The application uses a centralized configuration system (`config.py`) that suppo
 | `TTS_MODEL` | `hexgrad/Kokoro-82M` | TTS model name |
 | `OUTPUT_DIR` | `outputs/temp` | Output directory |
 | `LOG_LEVEL` | `INFO` | Logging level |
-
-### Example Configuration
-
-Create a `.env` file (not committed to git):
-
-```env
-GRPC_PORT=50051
-MAX_WORKERS=20
-CHUNK_SIZE=200
-MAX_WORDS=2000
-LOG_LEVEL=DEBUG
-```
+| `ENABLE_CACHING` | `false` | Enable response caching |
 
 ---
 
@@ -353,10 +365,12 @@ LOG_LEVEL=DEBUG
 Run the test suite:
 
 ```bash
-python -m pytest Tests/test_api.py -v
+python -m pytest Tests/ -v
 ```
 
 **Test Coverage**:
+- ✅ Input validation
+- ✅ Text preprocessing
 - ✅ Successful audio generation
 - ✅ Empty input handling
 - ✅ Long input validation
@@ -364,20 +378,17 @@ python -m pytest Tests/test_api.py -v
 
 ### Performance Testing
 
-Using Locust for load testing:
+Using the benchmark script:
 
 ```bash
-# Start the server first
-python api/server.py
-
-# In another terminal, run performance tests
-locust -f Tests/performance_test.py --headless -u 10 -r 2 --run-time 1m
+python scripts/benchmark.py -n 10
 ```
 
-**Parameters**:
-- `-u 10`: 10 concurrent users
-- `-r 2`: Spawn rate of 2 users/second
-- `--run-time 1m`: Run for 1 minute
+Or using Locust:
+
+```bash
+locust -f Tests/performance_test.py --headless -u 10 -r 2 --run-time 1m
+```
 
 ---
 
@@ -392,16 +403,13 @@ Based on performance testing with 10 concurrent users:
 - **Requests per Second**: 2.8
 - **Throughput**: ~168 requests/minute
 
-### Performance Graph
-
-See `performance_graph.png` for detailed performance metrics across different concurrency levels.
-
 ### Optimization Tips
 
 1. **Use GPU**: Enable CUDA for faster model inference
 2. **Adjust Workers**: Increase `MAX_WORKERS` for higher concurrency
 3. **Chunk Size**: Optimize `CHUNK_SIZE` based on your use case
-4. **Caching**: Consider implementing response caching for repeated stories
+4. **Caching**: Enable caching for frequently requested stories
+5. **Model Optimization**: Use quantized models for faster inference
 
 ---
 
@@ -419,28 +427,13 @@ docker build -t story2audio:latest .
 docker run -p 50051:50051 story2audio:latest
 ```
 
-### Docker Compose (Optional)
+### Docker Compose
 
-Create `docker-compose.yml`:
-
-```yaml
-version: '3.8'
-services:
-  story2audio:
-    build: .
-    ports:
-      - "50051:50051"
-    environment:
-      - GRPC_PORT=50051
-      - MAX_WORKERS=10
-    volumes:
-      - ./outputs:/app/outputs
-```
-
-Run with:
 ```bash
-docker-compose up
+docker-compose up -d
 ```
+
+See [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) for detailed deployment instructions.
 
 ---
 
@@ -450,28 +443,48 @@ docker-compose up
 Story2Audio-Microservice/
 ├── api/
 │   ├── client.py           # gRPC client for testing
-│   ├── grpc_client.py       # gRPC client for frontend
-│   └── server.py           # gRPC server implementation
+│   ├── grpc_client.py       # Enhanced gRPC client
+│   ├── server.py           # gRPC server implementation
+│   ├── middleware.py       # Request middleware
+│   └── health.py           # Health check endpoint
 ├── src/
 │   ├── enhancer_local.py   # Text enhancement logic
 │   ├── kokoro_tts.py       # TTS logic
 │   ├── preprocess.py       # Story chunking logic
-│   └── utils.py            # Audio stitching logic
+│   ├── utils.py            # Audio stitching logic
+│   ├── validators.py       # Input validation
+│   ├── retry.py            # Retry mechanism
+│   ├── metrics.py          # Metrics collection
+│   └── cache.py             # Caching mechanism
 ├── Tests/
 │   ├── test_api.py         # Unit tests for gRPC API
-│   ├── performance_test.py # Performance test script
-│   └── plot_performance.py # Performance visualization
+│   ├── test_validators.py  # Validation tests
+│   ├── test_preprocess.py  # Preprocessing tests
+│   └── performance_test.py # Performance test script
+├── docs/
+│   ├── API.md              # API documentation
+│   ├── DEPLOYMENT.md       # Deployment guide
+│   └── TROUBLESHOOTING.md  # Troubleshooting guide
+├── scripts/
+│   ├── setup.sh            # Setup script
+│   ├── cleanup.sh           # Cleanup script
+│   └── benchmark.py        # Benchmark script
+├── .github/
+│   └── workflows/
+│       └── ci.yml          # CI/CD pipeline
 ├── Dockerfile              # Docker configuration
+├── docker-compose.yml      # Docker Compose config
 ├── frontend.py             # Gradio frontend
 ├── config.py               # Configuration management
 ├── requirements.txt        # Project dependencies
+├── requirements-dev.txt   # Development dependencies
 ├── story2audio.proto       # gRPC service definition
-├── story2audio_pb2.py      # Generated gRPC code
-├── story2audio_pb2_grpc.py # Generated gRPC code
-├── sample_story.txt        # Sample input story
-├── .gitignore             # Git ignore rules
-├── CHANGELOG.md           # Project changelog
-└── README.md              # This file
+├── Makefile                # Development commands
+├── .env.example            # Environment template
+├── CONTRIBUTING.md         # Contributing guidelines
+├── SECURITY.md             # Security policy
+├── LICENSE                 # MIT License
+└── README.md               # This file
 ```
 
 ---
@@ -514,7 +527,7 @@ Story2Audio-Microservice/
 
 4. **Error Handling**: 
    - Limited timeout handling for long audio generation tasks
-   - No automatic retry mechanism for failed requests
+   - No automatic retry mechanism for failed requests (can be enabled)
 
 5. **Frontend**: 
    - Gradio is suitable for demos but not production-grade
@@ -539,26 +552,27 @@ Story2Audio-Microservice/
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please follow these steps:
+Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+### Quick Start for Contributors
 
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-### Development Guidelines
-
-- Follow PEP 8 style guidelines
-- Write unit tests for new features
-- Update documentation as needed
-- Ensure all tests pass before submitting PR
+2. Create a feature branch
+3. Make your changes
+4. Run tests: `make test`
+5. Submit a Pull Request
 
 ---
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 🔒 Security
+
+For security concerns, please see [SECURITY.md](SECURITY.md).
 
 ---
 
@@ -566,8 +580,8 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 For questions, issues, or contributions, please reach out to:
 
-- **Email**: [i212468@example.com]
 - **GitHub Issues**: [Create an issue](https://github.com/Albab001/-Story2Audio-Microservice/issues)
+- **Email**: [i212468@example.com]
 
 ---
 

@@ -90,6 +90,14 @@ with gr.Blocks(css=custom_css, title="Story2Audio") as demo:
         inputs=story_input,
         outputs=[audio_output, download_output, status_output, status_output]
     )
+    
+    # Add word count display
+    word_count = gr.Textbox(label="Word Count", value="0", interactive=False)
+    story_input.change(
+        fn=lambda x: str(len(x.split()) if x else 0),
+        inputs=story_input,
+        outputs=word_count
+    )
 
 # Launch the interface
 demo.launch()

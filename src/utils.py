@@ -8,6 +8,7 @@ from pydub import AudioSegment
 from typing import List, Optional
 import logging
 import os
+from config import Config
 
 logger = logging.getLogger(__name__)
 
@@ -79,6 +80,11 @@ def combine_audio(
         for i, file_path in enumerate(files):
             try:
                 audio = AudioSegment.from_wav(file_path)
+                
+                # Normalize audio if enabled
+                if Config.NORMALIZE_AUDIO:
+                    from src.audio_quality import normalize_audio_levels
+                    audio = normalize_audio_levels(audio)
                 
                 # Add fade in/out for smoother transitions (except first and last)
                 if i > 0 and fade_duration > 0:

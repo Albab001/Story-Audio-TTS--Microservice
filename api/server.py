@@ -60,6 +60,10 @@ class StoryServiceServicer(story2audio_pb2_grpc.StoryServiceServicer):
             word_count = len(story_text.split())
             logger.info(f"[{request_id}] Processing request: {word_count} words")
             
+            # Estimate processing time
+            estimated_time = word_count * 0.035  # ~35ms per word
+            logger.debug(f"[{request_id}] Estimated processing time: {estimated_time:.1f}s")
+            
             # Start metrics tracking
             metrics.start_request(request_id, word_count=word_count)
 

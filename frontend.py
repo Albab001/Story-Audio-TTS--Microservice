@@ -66,7 +66,8 @@ async def process_story(story_text):
         with open(temp_audio_path, "wb") as f:
             f.write(audio_data)
 
-        return temp_audio_path, temp_audio_path, "success", "Audio generated successfully! Click play to listen or download the file."
+        file_size = os.path.getsize(temp_audio_path) / 1024  # Size in KB
+        return temp_audio_path, temp_audio_path, "success", f"Audio generated successfully! ({file_size:.1f} KB) Click play to listen or download."
     except Exception as e:
         return None, None, "error", f"Failed to generate audio: {str(e)}"
 

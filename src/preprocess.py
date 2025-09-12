@@ -87,5 +87,6 @@ def chunk_story(text: str, chunk_size: int = 150, overlap: int = 0) -> List[str]
         if i >= len(words):
             break
 
-    logger.info(f"Split story into {len(chunks)} chunks (avg {len(words) // len(chunks) if chunks else 0} words/chunk)")
+    avg_words = len(words) // len(chunks) if chunks else 0
+    logger.info(f"Split story into {len(chunks)} chunks (avg {avg_words} words/chunk)")
     return chunks

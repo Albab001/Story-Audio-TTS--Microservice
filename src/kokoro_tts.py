@@ -71,7 +71,7 @@ def text_to_coqui_audio(
         pipeline = get_pipeline()
         audio_files: List[str] = []
         
-        logger.info(f"Generating audio for {len(chunks)} chunks with voice '{voice}'")
+        logger.info(f"Generating audio for {len(chunks)} chunks with voice '{voice}' at {sample_rate}Hz")
         
         # Generate audio for each chunk
         for i, chunk in enumerate(chunks):

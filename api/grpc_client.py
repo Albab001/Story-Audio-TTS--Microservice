@@ -66,7 +66,7 @@ class Story2AudioClient:
                 
         except asyncio.TimeoutError:
             logger.error(f"Request timeout after {timeout}s")
-            return "", "error", "Request timeout"
+            return "", "error", f"Request timeout after {timeout} seconds"
         except grpc.RpcError as e:
             logger.error(f"gRPC error: {e.code()} - {e.details()}")
             return "", "error", f"gRPC error: {e.details()}"

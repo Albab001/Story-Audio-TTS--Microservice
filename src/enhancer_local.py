@@ -90,6 +90,7 @@ class StoryEnhancer:
             )
             
             logger.info(f"Successfully initialized StoryEnhancer with model: {self.model_name}")
+            logger.debug(f"Model dtype: {dtype}, CUDA available: {use_cuda}")
             
         except Exception as e:
             logger.error(f"Failed to load model {self.model_name}: {e}")

@@ -52,6 +52,14 @@ class SimpleCache:
     
     def size(self) -> int:
         """Get number of cached items."""
+        # Clean expired entries before returning size
+        current_time = time.time()
+        expired_keys = [
+            key for key, (_, timestamp) in self._cache.items()
+            if current_time - timestamp > self.ttl
+        ]
+        for key in expired_keys:
+            del self._cache[key]
         return len(self._cache)
 
 

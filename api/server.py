@@ -18,6 +18,7 @@ from src.kokoro_tts import text_to_coqui_audio
 from src.utils import combine_audio
 from src.validators import StoryValidator
 from src.metrics import metrics
+from src.error_handler import ErrorHandler
 import base64
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))

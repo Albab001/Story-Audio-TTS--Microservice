@@ -75,6 +75,7 @@ async def process_story(story_text):
 with gr.Blocks(css=custom_css, title="Story2Audio") as demo:
     gr.Markdown("# 🎧 Story2Audio Generator")
     gr.Markdown("Enter your story below and listen to the audio version!")
+    gr.Markdown("### Tips: Keep stories under 1000 words for best results")
     
     with gr.Row():
         with gr.Column(scale=1):

@@ -85,7 +85,7 @@ with gr.Blocks(css=custom_css, title="Story2Audio") as demo:
             download_output = gr.File(label="Download Audio")
             status_output = gr.Textbox(label="Status", interactive=False)
     
-    submit_btn = gr.Button("Generate Audio", variant="primary")
+    submit_btn = gr.Button("Generate Audio", variant="primary", size="lg")
     
     submit_btn.click(
         fn=lambda x: asyncio.run(process_story(x)),

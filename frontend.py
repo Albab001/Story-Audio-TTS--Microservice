@@ -75,16 +75,17 @@ async def process_story(story_text):
 with gr.Blocks(css=custom_css, title="Story2Audio") as demo:
     gr.Markdown("# 🎧 Story2Audio Generator")
     gr.Markdown("Enter your story below and listen to the audio version!")
+    gr.Markdown("### Tips: Keep stories under 1000 words for best results")
     
     with gr.Row():
         with gr.Column(scale=1):
-            story_input = gr.Textbox(label="Your Story", lines=5, placeholder="Type your story here...")
+            story_input = gr.Textbox(label="Your Story", lines=8, placeholder="Type your story here...", max_lines=20)
         with gr.Column(scale=1):
             audio_output = gr.Audio(label="Generated Audio", type="filepath", interactive=False)
             download_output = gr.File(label="Download Audio")
             status_output = gr.Textbox(label="Status", interactive=False)
     
-    submit_btn = gr.Button("Generate Audio", variant="primary")
+    submit_btn = gr.Button("Generate Audio", variant="primary", size="lg")
     
     submit_btn.click(
         fn=lambda x: asyncio.run(process_story(x)),

@@ -79,7 +79,7 @@ with gr.Blocks(css=custom_css, title="Story2Audio") as demo:
     
     with gr.Row():
         with gr.Column(scale=1):
-            story_input = gr.Textbox(label="Your Story", lines=5, placeholder="Type your story here...")
+            story_input = gr.Textbox(label="Your Story", lines=8, placeholder="Type your story here...", max_lines=20)
         with gr.Column(scale=1):
             audio_output = gr.Audio(label="Generated Audio", type="filepath", interactive=False)
             download_output = gr.File(label="Download Audio")

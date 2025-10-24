@@ -74,6 +74,7 @@ def text_to_coqui_audio(
         logger.info(f"Generating audio for {len(chunks)} chunks with voice '{voice}' at {sample_rate}Hz")
         
         # Generate audio for each chunk
+        total_chunks = len(chunks)
         for i, chunk in enumerate(chunks):
             if not chunk or not chunk.strip():
                 logger.warning(f"Skipping empty chunk {i+1}")
@@ -99,7 +100,7 @@ def text_to_coqui_audio(
                     audio_files.append(out_path)
                     file_size_kb = os.path.getsize(out_path) / 1024
                     logger.info(
-                        f"Audio saved: {out_path} ({file_size_kb:.2f} KB)"
+                        f"Audio saved: {out_path} ({file_size_kb:.2f} KB) [{i+1}/{total_chunks}]"
                     )
                 else:
                     logger.warning(f"No audio generated for chunk {i+1}")

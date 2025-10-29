@@ -56,6 +56,9 @@ def chunk_story(text: str, chunk_size: int = 150, overlap: int = 0) -> List[str]
     cleaned_text = clean_text(text)
     words = cleaned_text.split()
     
+    # Filter out empty strings
+    words = [w for w in words if w]
+    
     if not words:
         logger.warning("Empty word list after cleaning")
         return []

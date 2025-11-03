@@ -12,6 +12,7 @@ logger = logging.getLogger(__name__)
 
 
 def get_health_status() -> Dict[str, Any]:
+    """Get current health status of the service."""
     """
     Get current health status of the service.
     

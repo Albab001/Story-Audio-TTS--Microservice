@@ -129,5 +129,6 @@ class Config:
         logging.basicConfig(
             level=getattr(logging, cls.LOG_LEVEL.upper(), logging.INFO),
             format=cls.LOG_FORMAT,
-            datefmt="%Y-%m-%d %H:%M:%S"
+            datefmt="%Y-%m-%d %H:%M:%S",
+            force=True
         )

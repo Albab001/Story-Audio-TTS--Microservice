@@ -108,7 +108,8 @@ def combine_audio(
         )
         
         file_size_mb = os.path.getsize(output_path) / (1024 * 1024)
-        logger.info(f"Audio stitched successfully: {output_path} ({file_size_mb:.2f} MB, {len(final)}ms)")
+        duration_sec = len(final) / 1000.0
+        logger.info(f"Audio stitched successfully: {output_path} ({file_size_mb:.2f} MB, {duration_sec:.1f}s)")
         
         return output_path
         

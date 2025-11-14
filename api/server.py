@@ -150,6 +150,11 @@ async def serve():
     server.add_insecure_port(f"[::]:{Config.GRPC_PORT}")
     await server.start()
     logger.info(f"gRPC server started on port {Config.GRPC_PORT}")
+    try:
+        from src.version import __version__
+        logger.info(f"Story2Audio version {__version__}")
+    except ImportError:
+        pass
     await server.wait_for_termination()
 
 if __name__ == "__main__":

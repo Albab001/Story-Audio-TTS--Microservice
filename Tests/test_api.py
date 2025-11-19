@@ -36,4 +36,5 @@ async def test_generate_audio_long_input():
         assert "Text too long" in response.message
 
 if __name__ == "__main__":
-    asyncio.run(pytest.main(["-v"]))
+    import sys
+    sys.exit(pytest.main(["-v", __file__]))

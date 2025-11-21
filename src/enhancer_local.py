@@ -155,7 +155,7 @@ class StoryEnhancer:
             enhanced = output.split("Enhanced version:")[-1].strip()
             
             # Fallback to original if enhancement failed
-            if not enhanced or len(enhanced) < len(text_chunk) * 0.5:
+            if not enhanced or len(enhanced.strip()) < len(text_chunk.strip()) * 0.5:
                 logger.warning("Enhancement produced short output, using original")
                 return text_chunk
             

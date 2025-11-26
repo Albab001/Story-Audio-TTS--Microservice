@@ -112,6 +112,7 @@ class MetricsCollector:
         self._successful_requests = 0
         self._failed_requests = 0
         self._total_processing_time = 0.0
+        logger.info("Metrics reset")
 
 
 # Global metrics collector instance

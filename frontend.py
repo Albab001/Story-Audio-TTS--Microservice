@@ -69,7 +69,8 @@ async def process_story(story_text):
         file_size = os.path.getsize(temp_audio_path) / 1024  # Size in KB
         return temp_audio_path, temp_audio_path, "success", f"Audio generated successfully! ({file_size:.1f} KB) Click play to listen or download."
     except Exception as e:
-        return None, None, "error", f"Failed to generate audio: {str(e)}"
+        error_msg = str(e)[:200]  # Limit error message length
+        return None, None, "error", f"Failed to generate audio: {error_msg}"
 
 # Create the Gradio interface
 with gr.Blocks(css=custom_css, title="Story2Audio") as demo:

@@ -67,6 +67,7 @@ class StoryServiceServicer(story2audio_pb2_grpc.StoryServiceServicer):
             
             # Start metrics tracking
             metrics.start_request(request_id, word_count=word_count)
+            logger.debug(f"[{request_id}] Metrics tracking started")
 
             # Preprocess
             logger.info("Preprocessing story into chunks...")

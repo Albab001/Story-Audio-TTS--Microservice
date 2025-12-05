@@ -17,6 +17,7 @@ class StoryValidator:
     MAX_WORDS = 10000
     MIN_CHARS = 10
     MAX_CHARS = 50000
+    MAX_LINES = 1000
     
     # Patterns for invalid content
     ONLY_NUMBERS_PATTERN = re.compile(r'^\d+$')
@@ -71,6 +72,11 @@ class StoryValidator:
         # Check for excessive whitespace
         if cls.EXCESSIVE_WHITESPACE_PATTERN.search(text):
             return False, "Story contains excessive whitespace"
+        
+        # Check line count
+        line_count = len(text.split('\n'))
+        if line_count > cls.MAX_LINES:
+            return False, f"Story has too many lines (max {cls.MAX_LINES})"
         
         # Check for meaningful words (at least some words longer than 1 char)
         meaningful_words = [w for w in words if len(w) > 1 and w.isalnum()]

@@ -10,4 +10,6 @@ def ensure_dir(path: str) -> None:
 
 def get_file_size_mb(filepath: str) -> float:
     """Get file size in MB."""
+    if not os.path.exists(filepath):
+        return 0.0
     return os.path.getsize(filepath) / (1024 * 1024)
